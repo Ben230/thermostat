@@ -77,6 +77,41 @@ describe('Thermostat', function() {
       };
       expect(thermostat.MAXIMUM_TEMPERATURE).toEqual(32);
     });
+  });
 
+  describe('usage levels', function() {
+    describe('when the temperature is below 18 degrees', function() {
+      it('is low-usage', function() {
+        for (var i=0; i<3; i++) {
+          thermostat.down();
+        };
+        expect(thermostat.energyUsage()).toEqual('low-usage');
+      });
+    });
+
+    describe('when temp is between 18 and 25', function() {
+      it('is med-usage for 25', function() {
+        for (var i=0; i<4; i++) {
+          thermostat.up();
+        };
+        expect(thermostat.energyUsage()).toEqual('med-usage');
+      });
+
+      it('is med-usage for 18', function() {
+        for (var i=0; i<2; i++) {
+          thermostat.down();
+        };
+        expect(thermostat.energyUsage()).toEqual('med-usage');
+      });
+    });
+
+    describe('when the temperature is above 25 degrees', function() {
+      it('is high-usage', function() {
+        for (var i=0; i<6; i++) {
+          thermostat.up();
+        };
+        expect(thermostat.energyUsage()).toEqual('high-usage');
+      });
+    });
   });
 });
